@@ -15,7 +15,15 @@ export default {
       title: "A pale blue dot.",
       body: "Everyone you have ever known lived out their lives here.",
       footnote: "Voyager 1 · 6 billion km · 1990",
-      image: "https://images-assets.nasa.gov/image/PIA00452/PIA00452~orig.jpg",
+      presenter_notes: './notes/deepdive-1.md',
+      image: "../assets/pale_blue_dot.jpg",
+    },
+    {
+      id: 2.1,
+      kind: "content",
+      title: "Where are we?",
+      body: "Have you ever wondered what our neighborhood is actually like?",
+      footnote: "Press → to begin",
     },
     {
       id: 2,

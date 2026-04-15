@@ -28,6 +28,27 @@ Then open the dev server URL and press **F11** for fullscreen.
 - **Esc** — toggle index overview (click any card to jump)
 - **Home / End** — first / last slide
 - **S** — toggle settings (flavor picker)
+- **P** — open presenter view in a new tab
+
+## Presenter mode
+
+Press **P** (or open `?presenter` manually) to get a Keynote-style presenter view in a second tab. Keep the presentation tab fullscreen on the projector and the presenter tab on your laptop screen.
+
+The presenter view shows:
+- Scaled previews of the current and next slides
+- Speaker notes (loaded from `.md` files)
+- Elapsed timer and target runtime
+
+Both tabs stay in sync via BroadcastChannel — navigate from either one. Notes are stored as markdown files in `src/flavors/notes/` and referenced per-slide with `presenter_notes`:
+
+```js
+{
+  id: 1,
+  kind: "cover-quiet",
+  title: "A pale blue dot.",
+  presenter_notes: "./notes/deepdive-1.md",
+}
+```
 
 ## Project structure
 
@@ -44,11 +65,13 @@ src/
     Slide.jsx              — layout router for all 7 slide kinds
     Index.jsx              — Esc overlay — grid of all slides
     Settings.jsx           — S overlay — flavor picker
+    Presenter.jsx          — P overlay — speaker notes + previews + timer
   flavors/
     index.js               — exports array of all flavors
     canonical.js           — Flavor A — the full 20-min deck (18 slides)
     short.js               — Flavor B — ~10 min, skeptic-hostile (stub)
     deepdive.js            — Flavor C — ~30 min, friendly audience (stub)
+    notes/                 — presenter notes as .md files
 ```
 
 ## Adding a new flavor
@@ -82,6 +105,7 @@ Each flavor file contains a `slides` array. Each slide has:
 - `body` — supporting paragraph
 - `footnote` — source citation or tiny detail at bottom
 - `image` — optional background image URL (used by `cover-quiet`)
+- `presenter_notes` — optional path to a `.md` file in `src/flavors/notes/` (shown in presenter view)
 
 To reorder, just move items in the array. To add a slide, copy one and edit.
 

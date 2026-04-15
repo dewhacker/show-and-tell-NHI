@@ -7,7 +7,7 @@ export default function Footnote({ children }) {
       fontFamily: "'Work Sans', sans-serif", fontSize: 11,
       letterSpacing: "0.18em", textTransform: "uppercase",
       color: theme.inkDim, marginTop: 48,
-      paddingTop: 16, borderTop: `1px solid ${theme.rule}`,
+      paddingTop: 0,
       maxWidth: 400,
     }}>
       {children}

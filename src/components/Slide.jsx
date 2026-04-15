@@ -4,6 +4,27 @@ import Title from "./Title";
 import Body from "./Body";
 import Footnote from "./Footnote";
 
+// Eagerly import all images under src/ so local paths resolve through Vite
+const imageFiles = import.meta.glob("/src/**/*.{jpg,jpeg,png,gif,webp,svg,avif}", {
+  import: "default",
+  eager: true,
+});
+
+function resolveImage(imagePath) {
+  if (!imagePath || /^https?:\/\//.test(imagePath)) return imagePath;
+  if (imagePath.startsWith("/")) return imagePath; // absolute = public/ path
+
+  // Resolve relative path from src/flavors/ context
+  const parts = ["src", "flavors", ...imagePath.split("/")];
+  const resolved = [];
+  for (const part of parts) {
+    if (part === "..") resolved.pop();
+    else if (part !== ".") resolved.push(part);
+  }
+  const key = "/" + resolved.join("/");
+  return imageFiles[key] || imagePath;
+}
+
 export default function Slide({ slide }) {
   const base = {
     width: "100vw", height: "100vh",
@@ -18,8 +39,9 @@ export default function Slide({ slide }) {
         {slide.image && (
           <div style={{
             position: "absolute", inset: 0,
-            backgroundImage: `url(${slide.image})`,
-            backgroundSize: "cover", backgroundPosition: "center",
+            backgroundImage: `url(${resolveImage(slide.image)})`,
+            backgroundSize: "contain", backgroundPosition: "center",
+            backgroundRepeat: "no-repeat",
             opacity: 0.35,
           }} />
         )}

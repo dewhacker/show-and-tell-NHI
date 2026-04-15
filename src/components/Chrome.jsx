@@ -1,31 +1,15 @@
 import theme from "../theme";
 
-export default function Chrome({ index, total, title, flavorTitle }) {
+export default function Chrome({ index, total, flavorTitle }) {
   return (
-    <>
-      <div style={{
-        position: "fixed", top: 32, left: 48, right: 48,
-        display: "flex", justifyContent: "space-between",
-        fontFamily: "'Work Sans', sans-serif", fontSize: 11,
-        letterSpacing: "0.18em", textTransform: "uppercase",
-        color: theme.inkDim, zIndex: 10,
-      }}>
-        <span>◉ Observatory</span>
-        <span>{String(index + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}</span>
-      </div>
-      <div style={{
-        position: "fixed", bottom: 32, left: 48, right: 48,
-        display: "flex", justifyContent: "space-between",
-        fontFamily: "'Work Sans', sans-serif", fontSize: 11,
-        letterSpacing: "0.18em", textTransform: "uppercase",
-        color: theme.inkDim, zIndex: 10,
-      }}>
-        <span>{title}</span>
-        <span style={{ display: "flex", gap: 24 }}>
-          <span style={{ color: theme.accentDim }}>{flavorTitle}</span>
-          <span>← →  esc  s</span>
-        </span>
-      </div>
-    </>
+    <div style={{
+      position: "fixed", bottom: 16, right: 24,
+      fontFamily: "'Work Sans', sans-serif", fontSize: 10,
+      letterSpacing: "0.18em", textTransform: "uppercase",
+      color: theme.inkDim, zIndex: 10, opacity: 0.5,
+    }}>
+      {String(index + 1).padStart(2, "0")}/{String(total).padStart(2, "0")}
+      {flavorTitle && <span style={{ marginLeft: 12, color: theme.accentDim }}>{flavorTitle}</span>}
+    </div>
   );
 }
