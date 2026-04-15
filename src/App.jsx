@@ -13,7 +13,7 @@ const isPresenter = new URLSearchParams(window.location.search).has("presenter")
 
 export default function App() {
   const [flavorId, setFlavorId] = useState(() => {
-    return localStorage.getItem(STORAGE_KEY) || "canonical";
+    return import.meta.env.VITE_FLAVOR || localStorage.getItem(STORAGE_KEY) || "canonical";
   });
   const [i, setI] = useState(() => {
     const stored = parseInt(localStorage.getItem(STORAGE_KEY_INDEX), 10);
@@ -22,6 +22,7 @@ export default function App() {
   const [showIndex, setShowIndex] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const channelRef = useRef(null);
+  const videoRef = useRef(null);
 
   const flavor = flavors.find((f) => f.id === flavorId) || flavors[0];
   const slides = flavor.slides;
@@ -67,7 +68,8 @@ export default function App() {
     const onKey = (e) => {
       // Presenter mode: navigation only
       if (isPresenter) {
-        if (e.key === "ArrowRight" || e.key === " ") { go(1); e.preventDefault(); }
+        if (e.key === "ArrowRight") { go(1); e.preventDefault(); }
+        if (e.key === " ") { go(1); e.preventDefault(); }
         if (e.key === "ArrowLeft") go(-1);
         if (e.key === "Home") setI(0);
         if (e.key === "End") setI(slides.length - 1);
@@ -81,7 +83,15 @@ export default function App() {
         }
         return;
       }
-      if (e.key === "ArrowRight" || e.key === " ") { go(1); e.preventDefault(); }
+      if (e.key === "ArrowRight") { go(1); e.preventDefault(); }
+      if (e.key === " ") {
+        if (videoRef.current?.toggle) {
+          videoRef.current.toggle();
+        } else {
+          go(1);
+        }
+        e.preventDefault();
+      }
       if (e.key === "ArrowLeft") go(-1);
       if (e.key === "Escape") setShowIndex((s) => !s);
       if (e.key === "Home") setI(0);
@@ -116,7 +126,7 @@ export default function App() {
 
   return (
     <div style={{ background: theme.bg, color: theme.ink, minHeight: "100vh" }}>
-      <Slide slide={slide} />
+      <Slide slide={slide} videoRef={videoRef} />
       <Chrome index={i} total={slides.length} flavorTitle={flavor.title} />
       {showIndex && (
         <Index

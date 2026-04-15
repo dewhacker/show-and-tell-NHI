@@ -4,28 +4,34 @@ import Title from "./Title";
 import Body from "./Body";
 import Footnote from "./Footnote";
 
-// Eagerly import all images under src/ so local paths resolve through Vite
-const imageFiles = import.meta.glob("/src/**/*.{jpg,jpeg,png,gif,webp,svg,avif}", {
-  import: "default",
-  eager: true,
-});
+// Eagerly import all static assets under src/ so local paths resolve through Vite
+const assetFiles = import.meta.glob(
+  "/src/**/*.{jpg,jpeg,png,gif,webp,svg,avif,mp4,webm,mov,ogg}",
+  { import: "default", eager: true },
+);
 
-function resolveImage(imagePath) {
-  if (!imagePath || /^https?:\/\//.test(imagePath)) return imagePath;
-  if (imagePath.startsWith("/")) return imagePath; // absolute = public/ path
+function resolveAsset(assetPath) {
+  if (!assetPath || /^https?:\/\//.test(assetPath)) return assetPath;
+  if (assetPath.startsWith("/")) return assetPath; // absolute = public/ path
 
   // Resolve relative path from src/flavors/ context
-  const parts = ["src", "flavors", ...imagePath.split("/")];
+  const parts = ["src", "flavors", ...assetPath.split("/")];
   const resolved = [];
   for (const part of parts) {
     if (part === "..") resolved.pop();
     else if (part !== ".") resolved.push(part);
   }
   const key = "/" + resolved.join("/");
-  return imageFiles[key] || imagePath;
+  return assetFiles[key] || assetPath;
 }
 
-export default function Slide({ slide }) {
+function getYouTubeId(url) {
+  if (!url) return null;
+  const m = url.match(/(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+  return m ? m[1] : null;
+}
+
+export default function Slide({ slide, videoRef }) {
   const base = {
     width: "100vw", height: "100vh",
     display: "flex", alignItems: "center", justifyContent: "center",
@@ -33,13 +39,28 @@ export default function Slide({ slide }) {
     background: theme.bg, position: "relative", overflow: "hidden",
   };
 
+  if (slide.kind === "image") {
+    return (
+      <div style={{ ...base, padding: 0 }}>
+        <img
+          src={resolveAsset(slide.image)}
+          alt={slide.title || ""}
+          style={{
+            width: "100%", height: "100%",
+            objectFit: "contain",
+          }}
+        />
+      </div>
+    );
+  }
+
   if (slide.kind === "cover-quiet") {
     return (
       <div style={base}>
         {slide.image && (
           <div style={{
             position: "absolute", inset: 0,
-            backgroundImage: `url(${resolveImage(slide.image)})`,
+            backgroundImage: `url(${resolveAsset(slide.image)})`,
             backgroundSize: "contain", backgroundPosition: "center",
             backgroundRepeat: "no-repeat",
             opacity: 0.35,
@@ -111,6 +132,57 @@ export default function Slide({ slide }) {
   }
 
   if (slide.kind === "clip") {
+    const ytId = getYouTubeId(slide.video);
+    const videoSrc = !ytId && slide.video ? resolveAsset(slide.video) : null;
+
+    if (ytId) {
+      return (
+        <div style={{ ...base, padding: 0, background: theme.bgDeep }}>
+          <iframe
+            ref={(el) => {
+              if (!videoRef) return;
+              if (!el) { videoRef.current = null; return; }
+              let playing = false;
+              videoRef.current = {
+                toggle: () => {
+                  const cmd = playing ? "pauseVideo" : "playVideo";
+                  el.contentWindow.postMessage(
+                    JSON.stringify({ event: "command", func: cmd, args: "" }),
+                    "*",
+                  );
+                  playing = !playing;
+                },
+              };
+            }}
+            src={`https://www.youtube.com/embed/${ytId}?enablejsapi=1&origin=${window.location.origin}`}
+            style={{ width: "100%", height: "100%", border: "none" }}
+            allow="autoplay; encrypted-media"
+            tabIndex={-1}
+          />
+          {/* Overlay prevents iframe from capturing keyboard focus */}
+          <div style={{ position: "absolute", inset: 0, zIndex: 1 }} />
+        </div>
+      );
+    }
+
+    if (videoSrc) {
+      return (
+        <div style={{ ...base, padding: 0, background: theme.bgDeep }}>
+          <video
+            ref={(el) => {
+              if (!videoRef) return;
+              if (!el) { videoRef.current = null; return; }
+              videoRef.current = {
+                toggle: () => { el.paused ? el.play() : el.pause(); },
+              };
+            }}
+            src={videoSrc}
+            style={{ width: "100%", height: "100%", objectFit: "contain" }}
+          />
+        </div>
+      );
+    }
+
     return (
       <div style={{ ...base, background: theme.bgDeep }}>
         <div style={{ maxWidth: 1000, width: "100%" }}>

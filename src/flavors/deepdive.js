@@ -2,6 +2,8 @@
 // Audience: friendly, already bought in. More evidence, more nuance, more sources.
 // Same slide shape as canonical.js — just more slides, deeper copy.
 
+import Presenter from "../components/Presenter";
+
 export default {
   id: "deepdive",
   title: "The deep dive",
@@ -10,13 +12,19 @@ export default {
   slides: [
     {
       id: 1,
+      kind: "image",
+      image: "../assets/pale_blue_dot.jpg",
+      presenter_notes: './notes/deepdive-1.md',
+    },
+    {
+      id: 1.1,
       kind: "cover-quiet",
       eyebrow: "",
       title: "A pale blue dot.",
       body: "Everyone you have ever known lived out their lives here.",
       footnote: "Voyager 1 · 6 billion km · 1990",
-      presenter_notes: './notes/deepdive-1.md',
-      image: "../assets/pale_blue_dot.jpg",
+      presenter_notes: './notes/deepdive-1.1.md',
+      
     },
     {
       id: 2.1,
@@ -26,12 +34,14 @@ export default {
       footnote: "Press → to begin",
     },
     {
-      id: 2,
-      kind: "title",
-      eyebrow: "A talk in three acts",
-      title: "Why ours is the generation.",
-      body: "Cosmic scale. A hidden history. And a question we can no longer avoid.",
-      footnote: "Press → to begin",
+      id: 2.2,
+      kind:"image",
+      image:"../assets/nearby-stars2D-800px.jpg"
+    },
+    {
+      id: 2.3,
+      kind:"image",
+      image:"../assets/map-of-stars-within-20-light-years.jpg"
     },
     {
       id: 3,
@@ -40,14 +50,7 @@ export default {
       title: "Our neighborhood is crowded.",
       body: "Within 10 light-years of Earth there are roughly a dozen stars. Within 50, there are more than 1,400. We are not floating alone in the dark — we are in a dense, well-lit room.",
       footnote: "Source: RECONS / NASA",
-    },
-    {
-      id: 4,
-      kind: "content",
-      eyebrow: "How we find them",
-      title: "Transits and wobbles.",
-      body: "We watch stars dim as planets pass in front of them. We watch stars wobble as planets tug on them. That is almost the entire trick — and it works.",
-      footnote: "Transit photometry · radial velocity",
+      presenter_notes: './notes/deepdive-3.md',
     },
     {
       id: 5,
@@ -66,20 +69,19 @@ export default {
       footnote: "Kepler field · ~0.25% of the sky",
     },
     {
+      id: 8,
+      kind: "clip",
+      title: "Clip 1 — Kepler field flyover",
+      video:"https://www.youtube.com/watch?v=GP_ImWUI4cU"
+    },
+    {
       id: 7,
       kind: "stat",
       eyebrow: "Scaling up",
       title: "~300,000,000",
       body: "NASA's best estimate of potentially habitable, Earth-sized planets around sun-like stars in the Milky Way alone. Three hundred million Goldilocks candidates. In one galaxy. Out of two trillion.",
       footnote: "Bryson et al., 2021 · The Astronomical Journal",
-    },
-    {
-      id: 8,
-      kind: "clip",
-      eyebrow: "Interlude",
-      title: "Clip 1 — Kepler field flyover",
-      body: "Drop your video file here or embed a YouTube URL. ~60 seconds. Visual, not talking-head.",
-      footnote: "src=\"/clips/kepler-flyover.mp4\"",
+      presenter_notes: './notes/deepdive-7.md',
     },
     {
       id: 9,
@@ -97,20 +99,28 @@ export default {
       footnote: "Arnold sighting · June 24, 1947",
     },
     {
+      id: 10.1,
+      kind: "image",
+      "image":"../assets/ken-arnold-sighting.webp"
+    },
+    {
+      id: 10.2,
+      kind:"image",
+      image:"../assets/stanton-friedman.webp",
+      presenter_notes: './notes/deepdive-10.2.md',
+    },
+    {
+      id: 10.3,
+      kind: "image",
+      image:"../assets/roswelldailyrecord.webp",
+      presenter_notes: './notes/deepdive-10.3.md',
+    },
+    {
       id: 11,
       kind: "content",
-      eyebrow: "The pattern nobody wanted",
       title: "UFOs have a thing for nukes.",
       body: "Researcher Robert Hastings has collected testimony from more than 150 former U.S. military personnel describing UAP incidents at nuclear weapons sites. In 2010, seven of them testified together at the National Press Club. Malmstrom AFB, 1967: ten ICBMs went offline during a sighting.",
       footnote: "Hastings · UFOs and Nukes · 2010 Press Club",
-    },
-    {
-      id: 12,
-      kind: "content",
-      eyebrow: "The convert",
-      title: "J. Allen Hynek changed his mind.",
-      body: "Hired by the Air Force to debunk sightings for Project Blue Book, Hynek spent twenty years as the program's chief skeptic. Then he quietly stopped being one. By the 1970s he was arguing the phenomenon was real and the investigation had been a joke.",
-      footnote: "Project Blue Book · 1952–1969",
     },
     {
       id: 13,

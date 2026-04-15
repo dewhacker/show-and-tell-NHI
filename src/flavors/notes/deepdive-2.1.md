@@ -12,13 +12,3 @@ Never directly observed — inferred from comet trajectories (Jan Oort, 1950)
 Voyager 1, after 48 years, won't reach the inner edge for another ~300 years. Won't exit for ~30,000 years
 Gravitationally loose — passing stars can nudge objects loose and send them sunward
 
-The Local Void / KBC Void
-
-We live in an unusually empty patch of the universe
-The "KBC Void" (Keenan-Barger-Cowie, 2013) — a region ~2 billion light-years across, ~7x larger than average voids
-Earth/Milky Way sits near the center of it
-Galaxy density here is roughly half the cosmic average
-Why it matters: explains the "Hubble tension" — we measure the universe expanding faster locally because there's less mass nearby pulling things back
-Smaller scale: our Local Bubble — a 1,000-light-year cavity of hot, low-density gas carved out by ancient supernovae ~10-20 million years ago. The Sun drifted into it
-Talking point: we're in a quiet neighborhood inside a quiet neighborhood inside a quiet neighborhood. Cosmically isolated by a wider margin than average
-Speculative tie-in (use carefully): some have argued this isolation could be a factor in why we haven't detected neighbors — fewer nearby stars, less dense interstellar traffic

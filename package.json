@@ -5,6 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev:canonical": "VITE_FLAVOR=canonical vite",
+    "dev:short": "VITE_FLAVOR=short vite",
+    "dev:deepdive": "VITE_FLAVOR=deepdive vite",
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview"
